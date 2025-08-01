@@ -9,6 +9,8 @@ import UserHome from './pages/UserHome';
 import TechnicianDirectory from './pages/TechnicianDirectory';
 import Home from './pages/Welcome.js';
 import AuthPage from './pages/AuthPage';
+import Login from './pages/Login';
+
 
 
 function App() {

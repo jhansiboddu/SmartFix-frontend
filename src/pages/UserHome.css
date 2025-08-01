@@ -9,3 +9,56 @@
 .drag-box:hover {
   background-color: #e9ecef;
 }
+/* Container for drag & drop */
+.drag-box {
+  border: 2px dashed #0d6efd;
+  border-radius: 10px;
+  background-color: #f8f9fa;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+}
+
+.drag-box:hover {
+  background-color: #eaf4ff;
+}
+
+/* Modal image preview */
+.modal-body img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 6px;
+  margin-bottom: 15px;
+}
+
+/* Buttons in modal */
+.modal-body button,
+.modal-footer button {
+  min-width: 120px;
+}
+
+/* Table styling */
+.table th,
+.table td {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.table img {
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+/* Navbar adjustments */
+.navbar-brand {
+  font-weight: bold;
+  font-size: 1.25rem;
+}
+
+.navbar .btn {
+  font-size: 0.9rem;
+}
+
+/* Spacing for resolve button */
+.ms-2 {
+  margin-left: 0.5rem;
+}
