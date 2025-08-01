@@ -1,0 +1,11 @@
+.drag-box {
+  border: 2px dashed #6c757d;
+  border-radius: 10px;
+  cursor: pointer;
+  background-color: #f8f9fa;
+  transition: 0.3s ease;
+}
+
+.drag-box:hover {
+  background-color: #e9ecef;
+}

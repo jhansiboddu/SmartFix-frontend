@@ -1,0 +1,60 @@
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f1f4f8;
+}
+
+.auth-box {
+  background-color: white;
+  padding: 2rem 3rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  text-align: center;
+  width: 320px;
+}
+
+.auth-box h2 {
+  margin-bottom: 1rem;
+}
+
+.auth-box input,
+.auth-box select {
+  width: 100%;
+  padding: 0.6rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.auth-box button {
+  width: 100%;
+  padding: 0.6rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.auth-box button:hover {
+  background-color: #0056b3;
+}
+
+.switch-link {
+  color: #007bff;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.success-msg {
+  color: green;
+  font-weight: 500;
+}
+
+.error-msg {
+  color: red;
+  font-weight: 500;
+}
