@@ -1,38 +1,60 @@
-// src/pages/TechnicianDirectory.js
-import React from 'react';
-import { Card, Container, Row, Col } from 'react-bootstrap';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
-const TechnicianDirectory = () => {
-  const technicians = [
-    { name: 'Ravi Kumar', department: 'Plumbing', email: 'ravi.k@example.com', phone: '9876543210' },
-    { name: 'Anjali Sharma', department: 'Plumbing', email: 'anjali.s@example.com', phone: '9876543211' },
-    { name: 'Sita Reddy', department: 'Electrical', email: 'sita.r@example.com', phone: '9876543212' },
-    { name: 'Mohit Verma', department: 'Electrical', email: 'mohit.v@example.com', phone: '9876543213' },
-    { name: 'Naveen Rao', department: 'Civil', email: 'naveen.r@example.com', phone: '9876543214' },
-    { name: 'Pooja Iyer', department: 'Civil', email: 'pooja.i@example.com', phone: '9876543215' }
-  ];
+const AllTechnicians = () => {
+  const [technicians, setTechnicians] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    const fetchTechnicians = async () => {
+      try {
+        const res = await axios.get('http://localhost:5000/api/technicians');
+        setTechnicians(res.data);
+        setLoading(false);
+      } catch (err) {
+        setError('Failed to fetch technicians');
+        setLoading(false);
+      }
+    };
+
+    fetchTechnicians();
+  }, []);
+
+  if (loading) return <p>Loading technicians...</p>;
+  if (error) return <p style={{ color: 'red' }}>{error}</p>;
 
   return (
-    <Container className="my-4">
-      <h3 className="text-center mb-4">🧑‍🔧 Technician Directory</h3>
-      <Row xs={1} sm={2} md={3} className="g-4">
-        {technicians.map((tech, index) => (
-          <Col key={index}>
-            <Card className="h-100 shadow-sm">
-              <Card.Body>
-                <Card.Title>{tech.name}</Card.Title>
-                <Card.Subtitle className="mb-2 text-muted">{tech.department}</Card.Subtitle>
-                <Card.Text>
-                  📧 <strong>Email:</strong> {tech.email} <br />
-                  📞 <strong>Phone:</strong> {tech.phone}
-                </Card.Text>
-              </Card.Body>
-            </Card>
-          </Col>
-        ))}
-      </Row>
-    </Container>
+    <div className="technicians-container">
+      <h2>All Technicians</h2>
+      {technicians.length === 0 ? (
+        <p>No technicians found.</p>
+      ) : (
+        <table className="technician-table">
+          <thead>
+            <tr>
+              <th>User ID</th>
+              <th>Name</th>
+              <th>Contact</th>
+              <th>Location</th>
+              <th>Skill</th>
+            </tr>
+          </thead>
+          <tbody>
+            {technicians.map((tech) => (
+              <tr key={tech._id}>
+                <td>{tech.userId}</td>
+                <td>{tech.name}</td>
+                <td>{tech.contact}</td>
+                <td>{tech.location}</td>
+                <td>{tech.skill || 'N/A'}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
+    </div>
   );
 };
 
-export default TechnicianDirectory;
+export default AllTechnicians;

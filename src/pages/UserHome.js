@@ -38,17 +38,19 @@ const UserHome = () => {
 
   // Fetch previous tickets
   useEffect(() => {
-    const fetchIssues = async () => {
-      try {
-        const res = await axios.get(`http://localhost:5000/api/tickets/user/${userId}`);
-        setIssueList(res.data.tickets || []);
-      } catch (err) {
-        console.error("Error fetching tickets", err);
-      }
-    };
+  const fetchIssues = async () => {
+    try {
+      const res = await axios.get(`http://localhost:5000/api/tickets/user/${userId}`);
+      setIssueList(res.data.tickets || []);
+    } catch (err) {
+      console.error("Error fetching tickets", err);
+    }
+  };
 
-    if (userId) fetchIssues();
-  }, [userId]);
+  if (userId) fetchIssues();
+}, [userId]);
+    console.log(userId);
+
 
   // File upload handler
   const onDrop = (acceptedFiles) => {
@@ -127,17 +129,23 @@ const confirmFinal = () => {
 // Resolve ticket status
 const resolveTicket = async (ticketId) => {
   try {
-    await axios.put(`http://localhost:5000/api/update/${ticketId}/resolve`);
+    await axios.patch(`http://localhost:5000/api/tickets/${ticketId}/status`, {
+      status: 'Resolved',
+    });
+
     setIssueList((prev) =>
       prev.map((t) =>
         t._id === ticketId ? { ...t, status: 'Resolved' } : t
       )
     );
+
+    alert('Ticket marked as resolved.');
   } catch (err) {
     console.error("Failed to resolve ticket:", err);
     alert("Could not resolve ticket.");
   }
 };
+
 
   return (
     <>
@@ -204,44 +212,56 @@ const resolveTicket = async (ticketId) => {
       </Modal>
 
       <Container>
-        <h5 className="my-3">📋 Your Previous Issues</h5>
-        <Table bordered responsive>
-          <thead>
-            <tr>
-              <th>Image</th>
-              <th>Type</th>
-              <th>Technician</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {issueList.map((t, idx) => (
-              <tr key={idx}>
-                <td>
-                  <img src={`http://localhost:5000/${t.imageUrl}`} alt="issue" width="90" />
-                </td>
-                <td>{t.issueType}</td>
-                <td>{t.technicianName || 'Pending'}</td>
-                <td>
-                  <Badge bg={t.status === 'Resolved' ? 'success' : 'warning'}>
-                    {t.status}
-                  </Badge>
-                  {t.status !== 'Resolved' && (
-                    <Button
-                      variant="outline-success"
-                      size="sm"
-                      className="ms-2"
-                      onClick={() => resolveTicket(t._id)}
-                    >
-                      Resolve
-                    </Button>
-                  )}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </Table>
-      </Container>
+  <h5 className="my-3">📋 Your Previous Issues</h5>
+  <Table bordered responsive>
+    <thead>
+      <tr>
+        <th>Image</th>
+        <th>Issue Type</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      {issueList.map((ticket, idx) => (
+        <tr key={idx}>
+          <td>
+            {ticket.imageUrl ? (
+              <img
+                src={`http://localhost:5000/${ticket.imageUrl.replace(/\\/g, '/')}`}
+                alt="issue"
+                width={90}
+              />
+            ) : (
+              'No Image'
+            )}
+          </td>
+          <td>{ticket.issueType}</td>
+          <td>
+  <Badge bg={
+    ticket.status === 'Resolved' ? 'success' :
+    ticket.status === 'Assigned' ? 'primary' : 'warning'
+  }>
+    {ticket.status}
+  </Badge>
+
+  {ticket.status !== 'Resolved' && (
+    <Button
+      variant="outline-success"
+      size="sm"
+      className="ms-2"
+      onClick={() => resolveTicket(ticket._id)}
+    >
+      ✅ Resolve
+    </Button>
+  )}
+</td>
+        </tr>
+      ))}
+    </tbody>
+  </Table>
+</Container>
+
+
     </>
   );
 };

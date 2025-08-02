@@ -1,0 +1,21 @@
+.technician-tickets-container {
+  padding: 2rem;
+  font-family: Arial, sans-serif;
+}
+
+.ticket-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.ticket-table th,
+.ticket-table td {
+  border: 1px solid #ddd;
+  padding: 0.75rem;
+  text-align: left;
+}
+
+.ticket-table th {
+  background-color: #f4f4f4;
+}
